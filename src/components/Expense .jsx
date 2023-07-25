@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { appContext } from "../context/appContext";
+import { Link } from "react-router-dom";
 
 const Expense = () => {
+  const { expense, setExpense } = useContext(appContext);
+
   const [input, setInput] = useState({
     name: "",
     amount: "",
   });
-  const [expense, setExpense] = useState([]);
 
   const handleIncome = () => {
     setExpense([...expense, input]);
@@ -41,6 +44,7 @@ const Expense = () => {
         type="number"
       />
       <button onClick={handleIncome}>Add</button>
+      <Link to="/">Back</Link>
       {expense.map((data, i) => {
         return (
           <p key={i}>
