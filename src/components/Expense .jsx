@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { appContext } from "../context/appContext";
 import { Link } from "react-router-dom";
+import Header from "./Header";
 
 const Expense = () => {
   const { expense, setExpense } = useContext(appContext);
@@ -29,37 +30,69 @@ const Expense = () => {
 
   return (
     <div>
-      <h1>User Expense</h1>
-      <input
-        name="name"
-        placeholder="Name"
-        value={input.name}
-        onChange={hangleOnChange}
-        type="text"
-      />
-      <input
-        name="amount"
-        value={input.amount}
-        onChange={hangleOnChange}
-        type="number"
-      />
-      <button onClick={handleIncome}>Add</button>
-      <Link to="/">Back</Link>
-      {expense.map((data, i) => {
-        return (
-          <p key={i}>
-            {data.name} : {data.amount}
+      <Header />
+      <div className="flex gap-4 mx-4">
+        <div className=" w-7/12  bg-red-400 text-white p-5 font-semibold ">
+          <h2 className="text-red-400  bg-white p-2 rounded-md text-center ">
+            Total Expense
+          </h2>
+          <div className="space-y-2 my-2">
+            {expense.map((data, i) => (
+              <p className="flex mx-3 justify-between" key={i}>
+                <p>
+                  {i + 1} . {data.name}
+                </p>
+                <p>
+                  {" "}
+                  :{"  "}
+                  {data.amount} tk
+                </p>
+              </p>
+            ))}
+          </div>
+          <hr />
+          <p className="flex mx-3 justify-between">
+            <p>Total Amount </p>
+            <p>
+              ={"  "}
+              {(() => {
+                const sum = expense.reduce((accumulator, currentValue) => {
+                  console.log(accumulator, currentValue);
+                  return accumulator + +currentValue.amount;
+                }, 0);
+                return sum;
+              })()}{" "}
+              tk
+            </p>
           </p>
-        );
-      })}
-      Total Amount :
-      {(() => {
-        const sum = expense.reduce((accumulator, currentValue) => {
-          console.log(accumulator, currentValue);
-          return accumulator + +currentValue.amount;
-        }, 0);
-        return sum;
-      })()}
+        </div>{" "}
+        <div className="border w-5/12 p-4 h-fit">
+          <p>Name :</p>
+          <input
+            name="name"
+            placeholder="Name "
+            className="border w-full px-2 my-2 rounded-md text-gray-600"
+            value={input.name}
+            onChange={hangleOnChange}
+            type="text"
+          />
+          <p>Amount :</p>
+          <input
+            placeholder="Amount "
+            name="amount"
+            className="border w-full px-2 my-2 rounded-md text-gray-600"
+            value={input.amount}
+            onChange={hangleOnChange}
+            type="text"
+          />
+          <button
+            className="block bg-blue-500 w-full p-1  cursor-pointer rounded-md font-semibold text-white"
+            onClick={handleIncome}
+          >
+            Add
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
